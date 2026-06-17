@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shi Junyu — Research Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ── */
+    :root {
+      --bg:        #0d0d0d;
+      --bg2:       #141414;
+      --bg3:       #1a1a1a;
+      --border:    #2a2a2a;
+      --text:      #e8e4dc;
+      --muted:     #6b6b6b;
+      --accent:    #c8b89a;
+      --accent2:   #7a9e8e;
+      --tag-bg:    #1e1e1e;
+      --radius:    6px;
+      --mono:      'DM Mono', monospace;
+      --serif:     'DM Serif Display', serif;
+      --cn:        'Noto Serif SC', serif;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--cn);
+      font-weight: 300;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.35;
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 760px; margin: 0 auto; padding: 0 28px; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,13,13,0.88);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner {
+      max-width: 760px; margin: 0 auto; padding: 0 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding-top: 56px;
+      position: relative;
+    }
+    .hero-inner { padding: 80px 0 60px; }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 0.8s 0.1s ease forwards;
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(52px, 9vw, 88px);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 8px;
+      opacity: 0; animation: fadeUp 0.9s 0.2s ease forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-subtitle {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 36px;
+      opacity: 0; animation: fadeUp 0.9s 0.35s ease forwards;
+    }
+    .hero-bio {
+      font-size: 15px;
+      color: #b0aa9f;
+      max-width: 520px;
+      line-height: 1.85;
+      margin-bottom: 48px;
+      opacity: 0; animation: fadeUp 0.9s 0.45s ease forwards;
+    }
+    .hero-bio strong { color: var(--accent); font-weight: 600; }
+
+    .hero-actions {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.55s ease forwards;
+    }
+    .btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      padding: 11px 24px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0d0d0d;
+      font-weight: 500;
+    }
+    .btn-primary:hover { background: #d9c9aa; transform: translateY(-1px); }
+    .btn-ghost {
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    .btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+    /* decorative line */
+    .hero-deco {
+      position: absolute; right: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 1px; height: 220px;
+      background: linear-gradient(to bottom, transparent, var(--border), transparent);
+      display: none;
+    }
+
+    /* ── Section shared ── */
+    section { padding: 96px 0; border-top: 1px solid var(--border); }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    /* ── About / Skills ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .skill-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: #3a3a3a; transform: translateY(-2px); }
+    .skill-card-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .skill-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── Projects ── */
+    .projects-list { display: flex; flex-direction: column; gap: 2px; }
+    .project-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .project-item:hover {
+      border-color: #333;
+      background: var(--bg3);
+    }
+    .project-item:hover .project-arrow { transform: translate(3px, -3px); color: var(--accent); }
+    .project-name {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .project-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .project-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 3px 9px;
+      letter-spacing: 0.06em;
+    }
+    .project-arrow {
+      font-size: 18px;
+      color: var(--border);
+      transition: transform 0.2s, color 0.2s;
+      padding-top: 4px;
+    }
+
+    /* ── Blog ── */
+    .blog-grid { display: flex; flex-direction: column; gap: 2px; }
+    .blog-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 20px;
+      transition: color 0.2s;
+    }
+    .blog-item:last-child { border-bottom: none; }
+    .blog-item:hover .blog-title { color: var(--accent); }
+    .blog-title {
+      font-size: 15px;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .blog-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .blog-more {
+      margin-top: 32px;
+      display: flex; justify-content: flex-end;
+    }
+
+    /* ── Contact ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .contact-icon { font-size: 16px; }
+    .contact-desc {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+    }
+    .footer-inner {
+      max-width: 760px; margin: 0 auto; padding: 0 28px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .footer-copy span { color: var(--accent); }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Cursor dot ── */
+    .cursor {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.15s ease;
+      mix-blend-mode: difference;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      .nav-links { gap: 20px; }
+      .hero-name { font-size: clamp(42px, 12vw, 72px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor dot -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <span class="nav-logo">~/shi-junyu</span>
+      <div class="nav-links">
+        <a href="#about">关于</a>
+        <a href="#research">研究方向</a>
+        <a href="#projects">项目</a>
+        <a href="#blog">博客</a>
+        <a href="#contact">联系</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="eyebrow">施俊宇 &nbsp;/&nbsp; Shi Junyu</div>
+        <h1 class="hero-name">Research<em> &</em><br/>Data</h1>
+        <div class="hero-subtitle">Data Science & Big Data · Sophomore · Targeting Japanese National University (M.S.)</div>
+        <p class="hero-bio">
+          本科就读于数据科学与大数据技术专业，研究兴趣涵盖
+          <strong>贝叶斯推断</strong>、<strong>深度学习</strong> 与 <strong>运筹优化</strong>。
+          曾参加 MCM 2026 国际数学建模竞赛，正在准备投稿学术论文，
+          目标申请日本国立大学大学院修士课程。
+          日语 N4，持续学习中。
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">查看项目</a>
+          <a href="#contact" class="btn btn-ghost">联系我</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-label reveal">关于我</div>
+      <p class="hero-bio reveal" style="margin-bottom:0; max-width:none;">
+        大二在读，就读于数据科学与大数据技术专业（学号 24076014）。
+        研究方向涉及统计推断、机器学习与组合优化，已参加 MCM 2026 国际竞赛（Team #2602218），
+        正在向学术期刊投稿。计划申请日本国立大学大学院，方向为数据科学 / 情报系统 / 机器学习。
+      </p>
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <div class="skill-card-title">Statistics & Inference</div>
+          <p>贝叶斯推断 · 蒙特卡洛采样 · 回归分析 · 随机森林 · 不确定性量化</p>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card-title">Optimization</div>
+          <p>梯度优化 (Adam / L-BFGS) · 组合规划 · 六边形频率复用 · 运筹建模</p>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card-title">Programming</div>
+          <p>Python · PyTorch · MySQL · R · LaTeX · HTML/JS</p>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card-title">Language</div>
+          <p>中文（母语）· 英文（学术读写）· 日语（N4 进行中）</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Interest -->
+  <section id="research">
+    <div class="container">
+      <div class="section-label reveal">Research Interests</div>
+      <p class="hero-bio reveal" style="max-width:none; margin-bottom: 36px;">
+        我对以下方向有持续的研究热情，并希望在修士阶段深入探索：
+      </p>
+      <div class="skills-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+        <div class="skill-card reveal" style="border-color: #2e2e2e;">
+          <div class="skill-card-title" style="color: var(--accent2);">Probabilistic Modeling</div>
+          <p>贝叶斯统计、潜变量模型、蒙特卡洛方法、不确定性量化</p>
+        </div>
+        <div class="skill-card reveal" style="border-color: #2e2e2e;">
+          <div class="skill-card-title" style="color: var(--accent2);">Machine Learning</div>
+          <p>深度学习、视频行为识别、注意力机制、损失函数设计</p>
+        </div>
+        <div class="skill-card reveal" style="border-color: #2e2e2e;">
+          <div class="skill-card-title" style="color: var(--accent2);">Combinatorial Optimization</div>
+          <p>梯度优化、网络规划、频谱分配、可微代理模型</p>
+        </div>
+        <div class="skill-card reveal" style="border-color: #2e2e2e;">
+          <div class="skill-card-title" style="color: var(--accent2);">Fairness & Mechanism Design</div>
+          <p>评分机制分析、反事实模拟、偏差检测与矫正</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-label reveal">项目</div>
+      <div class="projects-list">
+
+        <a href="#" class="project-item reveal">
+          <div>
+            <div class="project-name">Dancing with the Data — DWTS 评分机制重构</div>
+            <div class="project-desc">
+              MCM 2026 国际数学建模竞赛（Team #2602218）。
+              针对 Dancing with the Stars 节目中观众投票数据从未公开的问题，
+              构建贝叶斯潜变量模型，通过蒙特卡洛拒绝采样反推历史 34 赛季的观众投票份额，
+              并提出创新的<strong style="color:var(--accent)">自适应方差加权系统（AVWS）</strong>——
+              基于变异系数动态调整裁判/观众权重，结合 Sigmoid 极值压缩，
+              既保持观众代表性（ρ_F ≈ 0.95），又抑制极端人气导致的争议结果。
+              反事实模拟验证：若 Season 27 采用排名法，Bobby Bones 最早第 4 周即会被淘汰。
+            </div>
+            <div class="project-tags">
+              <span class="tag">Bayesian Inference</span>
+              <span class="tag">Monte Carlo</span>
+              <span class="tag">AVWS</span>
+              <span class="tag">Counterfactual Sim</span>
+              <span class="tag">OLS / Random Forest</span>
+              <span class="tag">MCM 2026</span>
+            </div>
+          </div>
+          <div class="project-arrow">↗</div>
+        </a>
+
+        <a href="#" class="project-item reveal">
+          <div>
+            <div class="project-name">VHF 中继站网络规划 — 频谱约束与地形感知优化</div>
+            <div class="project-desc">
+              校赛数学建模竞赛论文。研究 145–148 MHz 频段内覆盖 40 英里圆形区域的中继站最小部署问题。
+              平坦地形下建立六边形蜂窝频率复用模型（K=3，PL 音调辅助 SIR 约束），
+              推导出 1000 用户需 19 个、10000 用户需 187 个中继站的理论下界；
+              山地地形下引入可微地形流形（双三次插值）与
+              <strong style="color:var(--accent)">软 LoS 遮挡惩罚（Softplus）</strong>，
+              采用 Adam + L-BFGS 混合梯度优化 + "狙击模式"覆盖补全，
+              最终覆盖率达 98.5%，山地场景额外需增加约 20–30% 站点。
+            </div>
+            <div class="project-tags">
+              <span class="tag">Gradient Optimization</span>
+              <span class="tag">Adam / L-BFGS</span>
+              <span class="tag">Differentiable LoS</span>
+              <span class="tag">Hexagonal Cellular</span>
+              <span class="tag">Python / PyTorch</span>
+              <span class="tag">校赛建模</span>
+            </div>
+          </div>
+          <div class="project-arrow">↗</div>
+        </a>
+
+        <a href="#" class="project-item reveal">
+          <div>
+            <div class="project-name">双流视频行为识别模型（进行中）</div>
+            <div class="project-desc">
+              面向医疗监控场景的跌倒检测研究，设计时空解耦注意力模块（STDA）
+              与自适应双流融合权重，集成双权重 Focal Loss（频率/置信度 CV 权重 + 
+              非对称假阴性惩罚），训练于 UR Fall Detection 与 NTU RGB+D 120 数据集。
+              目标投稿 IEICE Transactions on Information and Systems。
+            </div>
+            <div class="project-tags">
+              <span class="tag">Deep Learning</span>
+              <span class="tag">PyTorch</span>
+              <span class="tag">STDA Module</span>
+              <span class="tag">Focal Loss</span>
+              <span class="tag">Fall Detection</span>
+              <span class="tag">IEICE (目标)</span>
+            </div>
+          </div>
+          <div class="project-arrow">↗</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section id="blog">
+    <div class="container">
+      <div class="section-label reveal">博客</div>
+      <p class="contact-desc reveal">记录学习、研究过程和一些乱七八糟的想法。</p>
+      <div class="blog-grid">
+        <a href="#" class="blog-item reveal">
+          <span class="blog-title">Bayesian Rejection Sampling for Latent Vote Inference — MCM Paper Notes</span>
+          <span class="blog-date">2026-02</span>
+        </a>
+        <a href="#" class="blog-item reveal">
+          <span class="blog-title">AVWS 设计思路：用变异系数动态平衡裁判与观众权重</span>
+          <span class="blog-date">2026-02</span>
+        </a>
+        <a href="#" class="blog-item reveal">
+          <span class="blog-title">可微地形优化：Softplus LoS 惩罚与 Adam/L-BFGS 混合策略</span>
+          <span class="blog-date">2026-01</span>
+        </a>
+        <a href="#" class="blog-item reveal">
+          <span class="blog-title">日本大学院申请笔记：研究计划书写作与内诺流程整理</span>
+          <span class="blog-date">2025-12</span>
+        </a>
+      </div>
+      <div class="blog-more reveal">
+        <a href="#" class="btn btn-ghost">所有文章 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label reveal">联系方式</div>
+      <p class="contact-desc reveal">
+        欢迎日本大学院的教授们或相关研究者联系交流，
+        也欢迎对贝叶斯建模、优化算法感兴趣的同学一起讨论。
+      </p>
+      <div class="contact-grid">
+        <a href="mailto:junyushi730@gmail.com" class="contact-link reveal">
+          <span class="contact-icon">✉</span>
+          <span>junyushi730@gmail.com</span>
+        </a>
+        <a href="https://github.com/yourname" target="_blank" class="contact-link reveal">
+          <span class="contact-icon">⌥</span>
+          <span>GitHub</span>
+        </a>
+        <a href="#" class="contact-link reveal">
+          <span class="contact-icon">◈</span>
+          <span>知乎</span>
+        </a>
+        <a href="#" class="contact-link reveal">
+          <span class="contact-icon">◎</span>
+          <span>微信</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 <span>施俊宇 Shi Junyu</span> · Data Science & Big Data, Class of 2028</span>
+      <span class="footer-copy" style="color:#333;">~/index.html</span>
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ── Cursor ──
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX - 3 + 'px';
+      cursor.style.top  = e.clientY - 3 + 'px';
+    });
+    document.addEventListener('mousedown', () => cursor.style.transform = 'scale(2.5)');
+    document.addEventListener('mouseup',   () => cursor.style.transform = 'scale(1)');
+
+    // ── Scroll reveal ──
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // stagger siblings
+          const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
+          const idx = siblings.indexOf(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, idx * 60);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+
+    // ── Active nav highlight ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+      });
+      navLinks.for
